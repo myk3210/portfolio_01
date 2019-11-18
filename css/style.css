@@ -10,17 +10,21 @@ body{
     font-size: 1.6rem;
     color: #000c15;
     font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    background: url("../img/pc.jpg");
 }
 header{
     color: #ffffff;
-    padding: 40px 20px;
+    padding: 0;
+    height: 25rem;
     position: relative;
-    background: rgba(35, 14, 5, 0.74);
+    background: rgba(35, 14, 5, 100);
 }
-header .menu_button{
-    color: rgba(35, 14, 5, 0);
+header h1{
+    padding: 1rem;
 }
 .headmenu{
+    position: absolute;
+    bottom: 7rem;
     list-style: none;
     position: absolute;
     right: 0;
@@ -32,7 +36,11 @@ header .menu_button{
     display: inline-block;
     margin: 0px 10px;
 }
+
 .menulist{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     list-style: none;
     background-color: #dddddd;
     text-align: center;
@@ -42,7 +50,7 @@ header .menu_button{
 }
 .button {
     display: inline-block;
-    width: 200px;
+    width: 150px;
     height: 54px;
     text-align: center;
     text-decoration: none;
@@ -92,16 +100,18 @@ header .menu_button{
   transition: all .3s;
 
 }
+/*チェックボックス等は非表示に*/
+.nav-unshown {
+    display:none;
+  }
 
 .container{
-    display: flex;
-    background: url("../img/pc.jpg");
-    width: 100%;
     
+    width: 100%;
+    display: flex;
 }
 aside{
     width: 300px;
-    /*background-color: aqua;*/
     padding: 10px;
     margin: 30px 10px;
     background: rgba(255, 255, 255, 0.6);
@@ -109,7 +119,6 @@ aside{
 }
 main{
     flex: 1;
-    /*background-color: pink;*/
     padding: 10px;
     margin: 30px 10px;
     background: rgba(255, 255, 255, 0.6);
@@ -137,7 +146,7 @@ aside h3::before {
 aside h3::after {
     right: 0;
 }
-main h1{
+main h2{
     margin:  0;                 /* デフォルトCSS打ち消し */
     font-size:  24px;           /* 文字サイズ指定 */
     border-bottom: solid 3px;   /* 線指定 */
@@ -148,7 +157,7 @@ main h1{
     color: #444d53;
     font-weight: bold;
 }
-main h1:before {
+main h2:before {
     content:  '';               /* 空白の要素を作る */
     width: 100%;                /* 幅指定 */
     height: 1px;                /* 高さ指定 */
@@ -158,7 +167,9 @@ main h1:before {
     left:  0;                   /* 位置調整 */
     bottom: -6px;               /* 位置調整 */
 }
-
+main p{
+    padding-bottom: 15px;
+}
 footer{
     padding: 30px 20px;
     background: rgba(35, 14, 5, 0.74);
@@ -167,8 +178,124 @@ footer p{
     color: #fff;
     text-align: center;
 }
-@media screen and (min-width:1024px) { 
-    .button {
-        width: 150px;
+@media screen and (max-width:768px) { 
+    header{
+        position: relative;
+        text-align: center;
     }
+    
+    
+    .button{
+        all: initial;
+        padding: 0.5rem;
+        
+    }
+    .menulist{
+        all: initial;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .button::before,
+    .button::after{
+        all: initial;
+        
+    }
+    /*チェックボックス等は非表示に*/
+    .nav-unshown {
+        display:none;
+    }
+    /*アイコンのスペース*/
+    #nav-open {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+    }
+    header nav{
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+    /*ハンバーガーアイコンをCSSだけで表現*/
+    #nav-open span, #nav-open span:before, #nav-open span:after {
+        position: absolute;
+        height: 3px;/*線の太さ*/
+        width: 25px;/*長さ*/
+        border-radius: 3px;
+        background: #fff;
+        display: block;
+        content: '';
+        cursor: pointer;
+        
+    }
+    #nav-open span:before {
+        bottom: -8px;
+    }
+    #nav-open span:after {
+        bottom: -16px;
+    }
+    #nav-close {
+        display: none;/*はじめは隠しておく*/
+        position: fixed;
+        z-index: 99;
+        top: 0;/*全体に広がるように*/
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0;
+        transition: .3s ease-in-out;
+    }
+    /*中身*/
+    #nav-content {
+        overflow: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;/*最前面に*/
+        width: 90%;/*右側に隙間を作る（閉じるカバーを表示）*/
+        max-width: 40%;/*最大幅*/
+        height: 100%;
+        background: linear-gradient(180deg,#DEB887 0%,#DEB887 12rem,
+        #fff 12rem,#fff 100%);/*背景色*/
+        transition: .3s ease-in-out;/*滑らかに表示*/
+        -webkit-transform: translateX(-105%);
+        transform: translateX(-105%);/*左に隠しておく*/
+        padding-top:12rem;
+    }
+    /*チェックが入ったら表示*/
+    #nav-input:checked ~ #nav-close {
+        display: block;/*カバーを表示*/
+        opacity: .5;
+    }
+    #nav-input:checked ~ #nav-content {
+        -webkit-transform: translateX(0%);
+        transform: translateX(0%);/*中身を表示（右へスライド）*/
+        box-shadow: 6px 0 25px rgba(0,0,0,.15);
+     }
+    .container{
+        display: initial;
+        padding: 0;
+        width: 100%;
+        
+    }
+    aside{
+        width:100%;
+        margin:1rem 0;
+        padding: 0;
+        max-width: initial;
+        
+        max-height: auto;
+    }
+    
+    main{
+        margin: 0;
+        padding: 0;
+        max-width: initial;
+        max-height: auto;
+        flex-wrap: wrap;
+    }
+    
 }
+
